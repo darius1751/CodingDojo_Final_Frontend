@@ -1,11 +1,11 @@
 import styles from './login.module.css';
-import { FormEvent } from "react"
+import { FormEvent, useState } from "react"
 import { useForm } from "../../hooks/useForm"
 import { Field } from "../../components/Field/Field";
 import { loginUser } from '../../services/loginUser';
 import { useAppDispatch } from '../../context/hooks';
 import { setUser } from '../../context/slice';
-// import { useNavigate } from 'react-router-dom';
+import { isPassword, isEmail } from '../../helpers/validations';
 const initialLogin = {
     email: "",
     password: ""
@@ -13,17 +13,19 @@ const initialLogin = {
 export const Login = () => {
     const { form, handleChange } = useForm(initialLogin);
     const { email, password } = form;
+    const [error, setError] = useState("");
     const dispatch = useAppDispatch();
-    // const navigate = useNavigate();
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        if (!isEmail(email) || !isPassword(password))
+            return;
         loginUser(form).subscribe({
             next({ response }) {
                 dispatch(setUser(response));
                 // navigate('/dashboard/tasks');
             },
-            error(err) {
-                alert(`Error: ${err}`)
+            error(_err) {
+                setError(`Credenciales incorrectas`);
             },
         })
     }
@@ -39,10 +41,7 @@ export const Login = () => {
                     value={email}
                     type="email"
                     required
-                    validation={(value) => {
-                        const isEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/i.test(value.toString());
-                        return isEmail || `${value} is not valid email`;
-                    }}
+                    validation={isEmail}
                 />
                 <Field
                     label="Contraseña"
@@ -51,11 +50,9 @@ export const Login = () => {
                     value={password}
                     type="password"
                     required
-                    validation={(value) => { 
-                        const isValid = value.toString().trim().length >= 8
-                        return isValid || `Debe tener 8 o mas caracteres`
-                    }}
+                    validation={isPassword}
                 />
+                <small className={styles.error}>{error}</small>
                 <input value={"Login"} type='submit' className={`btn btn-primary ${styles.btnLogin}`} />
             </form>
         </div>

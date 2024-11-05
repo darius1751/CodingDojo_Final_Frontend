@@ -10,7 +10,8 @@ type Props = {
     label: string;
     disabled?: boolean;
     readOnly?: boolean;
-    validation?: (value: string | number) => boolean | string;
+    initialError?: string;
+    validation?: (value: any) => boolean | string;
     minLength?: number;
     maxLength?: number;
     min?: number;
@@ -28,6 +29,7 @@ export const Field = ({
     minLength,
     maxLength,
     placeholder,
+    initialError = "",
     type = "text",
     required = false,
     disabled = false,
@@ -36,7 +38,7 @@ export const Field = ({
     const id = useId();
     return (
         <div className={styles.field}>
-            <label htmlFor={id} className={styles.label}>{label}</label>
+            <label htmlFor={id}>{label}</label>
             {
                 type !== "textarea" ? (< input
                     id={id}
@@ -72,7 +74,7 @@ export const Field = ({
                         </textarea>
                     )
             }
-            {!!validation && (value.toString().length === 0 ? <></> : < small className={styles.error}>{validation(value)}</small>)
+            {!!validation && (value.toString().length === 0 ? <small className={styles.error}>{initialError}</small> : <small className={styles.error}>{validation(value)}</small>)
             }
         </div >
     )

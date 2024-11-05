@@ -3,6 +3,8 @@ import { FormEvent } from "react"
 import { Field } from "../../components/Field/Field"
 import { useForm } from '../../hooks/useForm';
 import { createUser } from '../../services/createUser';
+import { isEmail, isPassword } from '../../helpers/validations';
+import { isName } from '../../helpers/validations/isName';
 const initialRegister = {
     name: '',
     lastname: '',
@@ -13,21 +15,27 @@ const initialRegister = {
 export const Register = () => {
     const { form, handleChange } = useForm(initialRegister);
     const { name, lastname, email, password, confirmPassword } = form;
+    const isEqualPassword = (confirmPassword: string) => {
+        const isValid = password.trim() === confirmPassword.trim();
+        return isValid || `Las contraseñas no coinciden`
+
+    }
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        createUser({
-            name,
-            lastname,
-            credentials: {
-                email,
-                password
-            }
-        }).subscribe({
-            next(_value) {
-            },
-            error(_err) {
-            },
-        })
+        if (isName(name) && isName(lastname) && isEmail(email) && isPassword(password) && isEqualPassword(confirmPassword))
+            createUser({
+                name,
+                lastname,
+                credentials: {
+                    email,
+                    password
+                }
+            }).subscribe({
+                next(_value) {
+                },
+                error(_err) {
+                },
+            })
     }
     return (
         <div className={`page`}>
@@ -40,6 +48,8 @@ export const Register = () => {
                     value={name}
                     type="text"
                     required
+                    validation={isName}
+                    initialError='Por favor proporciona tu nombre'
                 />
                 <Field
                     label="Apellido"
@@ -48,6 +58,8 @@ export const Register = () => {
                     value={lastname}
                     type="text"
                     required
+                    validation={isName}
+                    initialError='Por favor proporciona tu apellido'
                 />
                 <Field
                     label="Correo"
@@ -56,10 +68,8 @@ export const Register = () => {
                     value={email}
                     type="email"
                     required
-                    validation={(value) => {
-                        const isEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/i.test(value.toString());
-                        return isEmail || `${value} is not valid email`;
-                    }}
+                    validation={isEmail}
+                    initialError='Por favor ingresa un correo válido'
                 />
                 <Field
                     label="Contraseña"
@@ -68,6 +78,8 @@ export const Register = () => {
                     value={password}
                     type="password"
                     required
+                    validation={isPassword}
+                    initialError='La contraseña necesita tener al menos 8 caracteres'
                 />
                 <Field
                     label="Confirmar contraseña"
@@ -76,6 +88,8 @@ export const Register = () => {
                     value={confirmPassword}
                     type="password"
                     required
+                    validation={isEqualPassword}
+                    initialError='Las contraseñas no coinciden'
                 />
                 <input value={"Registrarse"} type='submit' className={`btn btn-primary ${styles.btnRegister}`} />
             </form>
