@@ -1,0 +1,49 @@
+:root {
+  font-size: 16px;
+  font-family: sans-serif;
+  color-scheme: light dark;
+}
+
+.active {
+  font-weight: bold;
+}
+
+.form {
+  display: flex;
+  width: 30em;
+  min-height: 20em;
+  max-width: 100%;
+  margin: 0 auto;
+  border: 1px solid gray;
+  border-radius: 0.4375em;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-left: 1.5em;
+}
+
+.page {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.btn {
+  border-radius: 0.4375em;
+  color: white;
+  height: 2.5em;
+  cursor: pointer;
+  min-width: 12em;
+  border: 0px;
+  margin-bottom: 2em;
+}
+
+.btn-primary {
+  background-color: #4427F8;
+}
+
+.btn-danger {
+  background-color: #FF3539;
+}
+
+.btn-secondary {
+  background-color: #97C833;
+}
