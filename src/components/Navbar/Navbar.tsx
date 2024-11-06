@@ -7,11 +7,12 @@ export type Route = {
 }
 type Props = {
     routes: Route[];
+    title: string;
 }
-export const Navbar = ({ routes }: Props) => {
+export const Navbar = ({ title, routes }: Props) => {
     return (
         <nav className={styles.navbar}>
-            <h1>Tareas</h1>
+            <h1>{title}</h1>
             <ul>
                 {
                     routes.map(

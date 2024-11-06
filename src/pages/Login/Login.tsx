@@ -6,6 +6,7 @@ import { loginUser } from '../../services/loginUser';
 import { useAppDispatch } from '../../context/hooks';
 import { setUser } from '../../context/slice';
 import { isPassword, isEmail } from '../../helpers/validations';
+import { useNavigate } from 'react-router-dom';
 const initialLogin = {
     email: "",
     password: ""
@@ -14,6 +15,7 @@ export const Login = () => {
     const { form, handleChange } = useForm(initialLogin);
     const { email, password } = form;
     const [error, setError] = useState("");
+    const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -22,7 +24,7 @@ export const Login = () => {
         loginUser(form).subscribe({
             next({ response }) {
                 dispatch(setUser(response));
-                // navigate('/dashboard/tasks');
+                navigate('/dashboard/movies');
             },
             error(_err) {
                 setError(`Credenciales incorrectas`);

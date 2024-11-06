@@ -7,7 +7,7 @@ const rootRoutes: Route[] = [
 export const RootLayout = () => {
     return (
         <>
-            <Navbar routes={rootRoutes} />
+            <Navbar title="Peliculas" routes={rootRoutes} />
             <Outlet />
         </>
     )

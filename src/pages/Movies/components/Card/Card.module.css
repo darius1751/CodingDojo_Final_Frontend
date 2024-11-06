@@ -1,0 +1,29 @@
+.card {
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    text-align: center;
+    justify-content: space-between;
+    width: 15em;
+    background-color: #D9D9D9;
+    margin: 1em;
+}
+
+.cardImage {
+    width: 8em;
+}
+
+.btnOptions {
+    display: flex;
+}
+
+.btnOptions>button {
+    width: 5em;
+    margin: 0.5em;
+}
+
+.rank {
+    font-weight: bold;
+}

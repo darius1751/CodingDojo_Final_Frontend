@@ -1,0 +1,55 @@
+.details {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.descriptions {
+    display: flex;
+    flex-direction: column;
+}
+
+.section {
+    border: 1px solid #E0E0E0;
+    border-radius: 7px;
+    padding: 2em 4em;
+    box-sizing: border-box;
+    max-width: 100%;
+    min-width: 48%;
+    height: min-content;
+}
+
+.definition {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1em;
+}
+
+.descriptionImage {
+    width: 20em;
+    max-width: 100%;
+    display: block;
+    margin: 1em auto;
+
+}
+
+.descriptionTitle {
+    color: gray;
+    font-weight: bold;
+}
+
+.descriptionValue {
+    font-weight: bold;
+}
+
+.btnOptions {
+    display: flex;
+}
+
+.btn {
+    margin: 0.3em;
+    text-decoration: none;
+    text-align: center;
+    padding-top: 0.6em;
+    box-sizing: border-box;
+}

@@ -4,7 +4,8 @@ import { Field } from "../../components/Field/Field"
 import { useForm } from '../../hooks/useForm';
 import { createUser } from '../../services/createUser';
 import { isEmail, isPassword } from '../../helpers/validations';
-import { isName } from '../../helpers/validations/isName';
+import { isMin } from '../../helpers/validations/isMin';
+import { useNavigate } from 'react-router-dom';
 const initialRegister = {
     name: '',
     lastname: '',
@@ -15,6 +16,7 @@ const initialRegister = {
 export const Register = () => {
     const { form, handleChange } = useForm(initialRegister);
     const { name, lastname, email, password, confirmPassword } = form;
+    const navigate = useNavigate();
     const isEqualPassword = (confirmPassword: string) => {
         const isValid = password.trim() === confirmPassword.trim();
         return isValid || `Las contraseñas no coinciden`
@@ -22,18 +24,21 @@ export const Register = () => {
     }
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (isName(name) && isName(lastname) && isEmail(email) && isPassword(password) && isEqualPassword(confirmPassword))
+        if (isMin(name, 3) && isMin(lastname, 3) && isEmail(email) && isPassword(password) && isEqualPassword(confirmPassword))
             createUser({
-                name,
-                lastname,
+                name: name.trim(),
+                lastname: lastname.trim(),
                 credentials: {
-                    email,
-                    password
+                    email: email.trim(),
+                    password: password.trim()
                 }
             }).subscribe({
                 next(_value) {
+                    console.log(_value)
+                    navigate('/login');
                 },
                 error(_err) {
+                    console.warn(_err);
                 },
             })
     }
@@ -48,7 +53,7 @@ export const Register = () => {
                     value={name}
                     type="text"
                     required
-                    validation={isName}
+                    validation={(value) => isMin(value, 3)}
                     initialError='Por favor proporciona tu nombre'
                 />
                 <Field
@@ -58,7 +63,7 @@ export const Register = () => {
                     value={lastname}
                     type="text"
                     required
-                    validation={isName}
+                    validation={(value) => isMin(value, 3)}
                     initialError='Por favor proporciona tu apellido'
                 />
                 <Field

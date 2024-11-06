@@ -3,12 +3,12 @@ import { Navbar, Route } from "../components/Navbar/Navbar"
 import { useAppSelector } from "../context/hooks"
 const routes: Route[] = [
     {
-        to: '/dashboard/tasks',
-        text: 'Todas las tareas'
+        to: '/dashboard/movies',
+        text: 'Todas las películas'
     },
     {
-        to: '/dashboard/add-task',
-        text: 'Agregar tarea'
+        to: '/dashboard/add-movie',
+        text: 'Agregar película'
     },
     {
         to: '/dashboard/logout',
@@ -24,7 +24,7 @@ export const DashboardLayout = () => {
                 user._id ?
                     (<>
 
-                        <Navbar routes={routes} />
+                        <Navbar title="Peliculas" routes={routes} />
                         <Outlet />
                     </>) : <Navigate to="/login" />
             }
